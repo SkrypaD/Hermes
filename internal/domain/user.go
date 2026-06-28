@@ -8,18 +8,18 @@ import (
 type User struct {
 	ID        ID
 	Name      string
-	CreatedAt time.Time
 	Type      string
+	IsActive  bool
+	CreatedAt time.Time
 
 	Requests []Request
 }
 
 type UserRepository interface {
-	GetByID(ctx context.Context, id ID) (User, error)
+	GetByID(ctx context.Context, id ID) (*User, error)
 	GetAll(ctx context.Context) ([]User, error)
 	GetByType(ctx context.Context, user_type string) ([]User, error)
 	Create(ctx context.Context, user User) error
-	Delete(ctx context.Context, id ID) error
 
 	// Returns all the users of a responder type with requests created
 	// in provided number of days.

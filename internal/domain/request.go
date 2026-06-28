@@ -12,7 +12,8 @@ type Request struct {
 	CreatedAt   time.Time
 	ClosedAt    time.Time
 
-	UserID        ID
+	RegistratorID ID
+	ResponderID   ID
 	RequestTypeID ID
 }
 

@@ -20,4 +20,8 @@ type UserRepository interface {
 	GetByType(ctx context.Context, user_type string) ([]User, error)
 	Create(ctx context.Context, user User) error
 	Delete(ctx context.Context, id ID) error
+
+	// Returns all the users of a responder type with requests created
+	// in provided number of days.
+	GetResponders(ctx context.Context, days_period int) ([]User, error)
 }

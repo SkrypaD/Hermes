@@ -10,6 +10,7 @@ type Request struct {
 	Title       string
 	Description string
 	CreatedAt   time.Time
+	ClosedAt    time.Time
 
 	UserID        ID
 	RequestTypeID ID

@@ -1,3 +1,41 @@
 .env
 .idea/
 
+# Binary outputs
+# Compiled binaries, executable files, and objects
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+bin/
+
+# Code coverage profiles and test artifacts
+*.coverprofile
+*.output
+coverage.txt
+profile.cov
+
+# Dependency directories
+# Un-comment if you cache dependencies locally instead of using module cache
+# vendor/
+
+# Go workspace files
+go.work
+go.work.sum
+
+# Environment configuration (secrets)
+.env
+*.env
+.env.local
+
+# IDE and Editor specifics
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

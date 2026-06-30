@@ -3,7 +3,8 @@ package http
 import (
 	"Hermes/internal/delivery/http/middleware"
 	"Hermes/internal/delivery/http/response"
-	"database/sql"
+	"Hermes/internal/domain"
+	"log"
 	"net/http"
 	"strings"
 
@@ -11,11 +12,14 @@ import (
 )
 
 type UserController struct {
-	Db *sql.DB
+	usr_usecase domain.UserUseCase
 }
 
-func RegisterUserRoutes(g *gin.Engine, db *sql.DB) {
-	usr_controller := UserController{Db: db}
+func RegisterUserRoutes(g *gin.Engine, u_usecase domain.UserUseCase) {
+	log.Print("Registering user routes")
+	usr_controller := UserController{
+		usr_usecase: u_usecase,
+	}
 	usr_group := g.Group("/users")
 
 	usr_group.Use(middleware.JWTMiddleware())
@@ -33,10 +37,28 @@ func (usr_contr *UserController) Create(g *gin.Context) {
 
 }
 
-func (usr_contr *UserController) GetByID(g *gin.Context) {
-	urs_id := strings.Trim(g.Param("id"), " ")
+func (u *UserController) GetByID(g *gin.Context) {
+	usr_id := strings.Trim(g.Param("id"), " ")
+	log.Print(usr_id)
 
-	if urs_id == "" {
+	if usr_id == "" {
 		g.JSON(http.StatusBadRequest, response.Failure("User id should not be empty", ""))
+		return
 	}
+
+	var id domain.ID
+	id, err := id.Convert(usr_id)
+	if err != nil {
+		log.Print("Error during user ID parsing: ", err)
+		g.JSON(http.StatusBadRequest, response.Failure("", "Unable to parse user ID."))
+		return
+	}
+
+	user, err := u.usr_usecase.GetById(g.Request.Context(), id)
+	if err != nil {
+		log.Print("Error during user search: ", err)
+		g.JSON(http.StatusBadRequest, response.Failure("", "Unable to find user by id."))
+		return
+	}
+	g.JSON(http.StatusOK, response.Success(user, "User found."))
 }

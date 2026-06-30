@@ -3,12 +3,19 @@ package repository
 import (
 	"context"
 	"database/sql"
+	"errors"
 
 	"Hermes/internal/domain"
 )
 
 type UserRepository struct {
 	Db *sql.DB
+}
+
+func NewUserRepository(db *sql.DB) *UserRepository {
+	return &UserRepository{
+		Db: db,
+	}
 }
 
 // Queries user by ID. If found returns User struct without requests.
@@ -20,6 +27,9 @@ func (usr_repo *UserRepository) GetByID(ctx context.Context, id domain.ID) (*dom
 
 	err := row.Scan(&user.ID, &user.Name, &user.CreatedAt, &user.Type)
 	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, errors.New("No user found.")
+		}
 		return nil, err
 	}
 
@@ -91,4 +101,8 @@ func (usr_repo *UserRepository) Create(ctx context.Context, user domain.User) er
 	}
 
 	return nil
+}
+
+func (usr_repo *UserRepository) GetResponders(ctx context.Context, days_period int) ([]domain.User, error) {
+	panic("Not implemented")
 }

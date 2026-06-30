@@ -1,7 +1,7 @@
 
 ## TODO
 
-// Add active field for User entity since they often leave the job.
+// Add active field for User entity since they often leave the job. [Added]
 1
   - [ ] Create user repository
   - [ ] Create request repository

@@ -5,13 +5,16 @@ import (
 	"os"
 
 	"Hermes/internal/delivery/http"
+	"Hermes/internal/repository"
 	"Hermes/internal/repository/data"
+	"Hermes/internal/usecase"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
 
 func main() {
+	log.Print("Start loading")
 
 	err := godotenv.Load()
 
@@ -28,14 +31,20 @@ func main() {
 	}
 
 	sqliteDb, err := dbSetUp.Initialize()
+	data.Create(sqliteDb)
+
 	if err != nil {
-		log.Fatal("Error unable to connect to the database")
+		log.Print("Error unable to connect to the database")
 		log.Fatal(err)
 	}
 
+	log.Print("User controller set up")
+	userRepo := &repository.UserRepository{Db: sqliteDb}
+	userUseCase := usecase.NewUserUseCase(userRepo)
+
 	g := gin.Default()
 
-	http.RegisterUserRoutes(g, sqliteDb)
+	http.RegisterUserRoutes(g, userUseCase)
 
-	g.Run(PORT)
+	g.Run(":" + PORT)
 }

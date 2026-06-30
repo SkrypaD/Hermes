@@ -61,11 +61,10 @@ func (usr_repo *UserRepository) GetAll(ctx context.Context) ([]domain.User, erro
 	}
 
 	return users, nil
-
 }
 
 func (usr_repo *UserRepository) GetByType(ctx context.Context, user_type string) ([]domain.User, error) {
-	query := `SELECT * FROM users WHERE is_active == true AND type == ?`
+	query := `SELECT id, name, type, created_at FROM users WHERE is_active == true AND type == ?`
 
 	rows, err := usr_repo.Db.QueryContext(ctx, query, user_type)
 	if err != nil {
@@ -76,7 +75,7 @@ func (usr_repo *UserRepository) GetByType(ctx context.Context, user_type string)
 
 	for rows.Next() {
 		user := domain.User{}
-		err := rows.Scan(&user.ID, &user.Name, &user.CreatedAt, &user.Type)
+		err := rows.Scan(&user.ID, &user.Name, &user.Type, &user.CreatedAt)
 		if err != nil {
 			return nil, err
 		}
@@ -104,5 +103,27 @@ func (usr_repo *UserRepository) Create(ctx context.Context, user domain.User) er
 }
 
 func (usr_repo *UserRepository) GetResponders(ctx context.Context, days_period int) ([]domain.User, error) {
-	panic("Not implemented")
+	query := `SELECT id, name, type, created_at FROM users WHERE is_active == true AND type == "Responder";`
+	users := []domain.User{}
+
+	rows, err := usr_repo.Db.QueryContext(ctx, query)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if rows.Next() {
+		usr := domain.User{}
+
+		err := rows.Scan(usr.ID, usr.Name, usr.Type, usr.CreatedAt)
+		if err != nil {
+			return nil, err
+		}
+		users = append(users, usr)
+	}
+
+	if rows.Err() != nil {
+		return nil, rows.Err()
+	}
+	return users, nil
 }

@@ -62,7 +62,7 @@ func Create(db *sql.DB) error {
 	_, err = db.Exec(rqst_tp_query)
 
 	if err != nil {
-		log.Print("Unable to create user table: ", err)
+		log.Print("Unable to create tables: ", err)
 		return err
 	}
 	return nil

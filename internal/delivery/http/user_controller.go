@@ -30,7 +30,13 @@ func RegisterUserRoutes(g *gin.Engine, u_usecase domain.UserUseCase) {
 }
 
 func (usr_contr *UserController) GetAll(g *gin.Context) {
+	usrs, err := usr_contr.usr_usecase.GetAll(g.Request.Context())
+	if err != nil {
+		g.JSON(http.StatusInternalServerError, response.Failure("Unable to get users.", ""))
+		return
+	}
 
+	g.JSON(http.StatusOK, response.Success(usrs, "Users found."))
 }
 
 func (usr_contr *UserController) Create(g *gin.Context) {

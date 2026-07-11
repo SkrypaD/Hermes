@@ -112,6 +112,7 @@ func (usr_repo *UserRepository) GetByID(ctx context.Context, ID int, onlyActive 
 	query += `id = ?`
 
 	row := usr_repo.DB.QueryRowContext(ctx, query, ID)
+
 	var user domain.User
 
 	err := row.Scan(&user.ID, &user.Name, &user.Login, &user.RoleID, &user.CreatedAt, &user.IsActive, &user.Password)

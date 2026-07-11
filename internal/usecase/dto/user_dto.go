@@ -8,7 +8,7 @@ type LoginUser struct {
 }
 
 type ReturnUser struct {
-	Id       int
+	ID       int
 	Login    string
 	Name     string
 	Role     string
@@ -18,7 +18,7 @@ type ReturnUser struct {
 }
 
 type ReturnUserCredentials struct {
-	Id        int
+	ID        int
 	Login     string
 	Name      string
 	Role      string

@@ -3,60 +3,60 @@ package dto
 import "time"
 
 type ReturnRequest struct {
-	ID            int
-	Title         string
-	Description   string
-	RequestType   string
-	CreatedAt     time.Time
-	UpdatedAt     time.Time
-	ClosedAt      time.Time
-	DispatcherID  int
-	ResponderID   int
-	RequestTypeID int
+	ID            int       `json:"id"`
+	Title         string    `json:"title"`
+	Description   string    `json:"description"`
+	RequestType   string    `json:"request_type"`
+	CreatedAt     time.Time `json:"created_at"`
+	UpdatedAt     time.Time `json:"updated_at"`
+	ClosedAt      time.Time `json:"closed_at"`
+	DispatcherID  int       `json:"dispatcher_id"`
+	ResponderID   int       `json:"responder_id"`
+	RequestTypeID int       `json:"request_type_id"`
 }
 
 type CreateRequest struct {
-	Title         string
-	Description   string
-	DispatcherID  int
-	ResponderID   int
-	RequestTypeID int
+	Title         string `json:"title"`
+	Description   string `json:"description"`
+	DispatcherID  int    `json:"dispatcher_id"`
+	ResponderID   int    `json:"responder_id"`
+	RequestTypeID int    `json:"request_type_id"`
 }
 
 type UpdateRequest struct {
-	ID            int
-	Title         string
-	Description   string
-	ResponderID   int
-	RequestTypeID int
+	ID            int    `json:"id"`
+	Title         string `json:"title"`
+	Description   string `json:"description"`
+	ResponderID   int    `json:"responder_id"`
+	RequestTypeID int    `json:"request_type_id"`
 }
 
 type ReturnRequestType struct {
-	ID         int
-	Name       string
-	IsRelevant bool
-	CreatedAt  time.Time
+	ID         int       `json:"id"`
+	Name       string    `json:"name"`
+	IsRelevant bool      `json:"is_relevant"`
+	CreatedAt  time.Time `json:"created_at"`
 }
 
 type CreateRequestType struct {
-	Name string
+	Name string `json:"name"`
 }
 
 //====================================//
 
 type ActivateRequestType struct {
-	ID int
+	ID int `json:"id"`
 }
 
 type GetAllRequests struct {
-	ForDays int
-	Offset  int
-	Limit   int
+	ForDays int `json:"for_days"`
+	Offset  int `json:"offset"`
+	Limit   int `json:"limit"`
 }
 
 type GetForResponder struct {
-	ResponderID int
-	ForDays     int
-	Offset      int
-	Limit       int
+	ResponderID int `json:"responder_id"`
+	ForDays     int `json:"for_days"`
+	Offset      int `json:"offset"`
+	Limit       int `json:"limit"`
 }

@@ -11,6 +11,12 @@ type UserRoleRepository struct {
 	DB *sql.DB
 }
 
+func NewUserRoleRepository(db *sql.DB) *UserRoleRepository {
+	return &UserRoleRepository{
+		DB: db,
+	}
+}
+
 func (usr_repo *UserRoleRepository) Create(ctx context.Context, role domain.UserRole) (*domain.UserRole, error) {
 	query := `INSERT INTO user_roles (name) VALUES (?)
 	RETURNING id, created_at`

@@ -12,17 +12,11 @@ type RequestRepository struct {
 	DB *sql.DB
 }
 
-// type Request struct {
-// 	ID            int
-// 	Title         string
-// 	Description   string
-// 	CreatedAt     time.Time
-// 	UpdatedAt     *time.Time
-// 	ClosedAt      *time.Time
-// 	DispatcherID  int
-// 	ResponderID   int
-// 	RequestTypeID int
-// }
+func NewRequestRepository(db *sql.DB) *RequestRepository {
+	return &RequestRepository{
+		DB: db,
+	}
+}
 
 func (req_repo *RequestRepository) GetAll(ctx context.Context, forDays int, limit int, offset int) ([]domain.Request, error) {
 	query := `SELECT id, title, description, created_at, updated_at, closed_at, dispatcher_id, responder_id, request_type_id FROM requests`

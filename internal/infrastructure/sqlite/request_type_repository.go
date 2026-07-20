@@ -11,6 +11,12 @@ type RequestTypeRepository struct {
 	DB *sql.DB
 }
 
+func NewRequestTypeRepository(db *sql.DB) *RequestTypeRepository {
+	return &RequestTypeRepository{
+		DB: db,
+	}
+}
+
 func (req_repo *RequestTypeRepository) Create(ctx context.Context, requestType domain.RequestType) (*domain.RequestType, error) {
 	query := `INSERT INTO request_types (name) VALUES (?) RETURNING id, is_relevant, created_at`
 
